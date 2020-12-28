@@ -25,7 +25,7 @@ def application(environ, start_response):
         b"<body>"
         b"<h1>Project Alpha</h1>"
         b"<hr>"
-        b"<p>This is a template project.</p>"
+        b"<p>This is a template project.NEW.</p>"
         b"</body>"
         b"</html>"
     )
