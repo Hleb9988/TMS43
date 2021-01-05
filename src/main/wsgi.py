@@ -41,7 +41,16 @@ def application(environ, start_response):
         b"</body>"
         b"</html>"
     )
+    # print(payload)
+    # print(type(payload))
+    f = bytes.decode(payload, encoding='utf-8')
+    # print(type(f))
+    h = f.replace('<p>This is a template project.NEW.</p>', '<p>This is a template project.NEW.{}</p>').format(x)
+    # print(h)
+    b = h.encode(encoding='utf-8')
+    # print(b)
+    payload = b
 
     start_response(status, list(headers.items()))
 
-    yield payload,'sdcsdf'.encode('utf-8')
+    yield payload
