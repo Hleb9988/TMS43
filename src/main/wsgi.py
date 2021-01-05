@@ -38,11 +38,10 @@ def application(environ, start_response):
         b"<h1>Project Alpha</h1>"
         b"<hr>"
         b"<p>This is a template project.NEW.</p>"
-        b"<p>f'{x}'</p>"
         b"</body>"
         b"</html>"
     )
 
     start_response(status, list(headers.items()))
 
-    yield payload
+    yield payload,'sdcsdf'.encode('utf-8')
