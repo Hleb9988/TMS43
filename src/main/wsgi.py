@@ -47,9 +47,12 @@ def application(environ, start_response):
     # print(type(f))
     h = f.replace('<p>This is a template project.NEW.</p>', '<p>This is a template project.NEW.{}</p>').format(x)
     # print(h)
-    b = h.encode(encoding='utf-8')
+    l_b=[]
+    for i in h:
+        l_b.append(i.encode(encoding='utf-8'))
+    #b = h.encode(encoding='utf-8')
     # print(b)
-    payload = b
+    payload = l_b
 
     start_response(status, list(headers.items()))
 
