@@ -1,4 +1,4 @@
-from wsgiref.simple_server import make_server
+cfrom wsgiref.simple_server import make_server
 
 from . import settings
 from . import wsgi

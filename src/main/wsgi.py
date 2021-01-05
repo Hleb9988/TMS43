@@ -4,6 +4,18 @@ from framework.util.settings import get_setting
 
 sentry_sdk.init(get_setting("SENTRY_DSN"), traces_sample_rate=1.0)
 
+import os
+x = os.environ
+def p_env(x):
+    l_environ=[]
+    for i,p in x.items():
+        #print(f"{i} : '{p}'")
+        t=(f"{i} : '{p}'")
+        l_environ.append(t)
+    str_environ = str(l_environ).replace(',','\n')
+
+    return str_environ
+p_env(x)
 
 def application(environ, start_response):
     if environ["PATH_INFO"] == "/e/":
@@ -26,6 +38,7 @@ def application(environ, start_response):
         b"<h1>Project Alpha</h1>"
         b"<hr>"
         b"<p>This is a template project.NEW.</p>"
+        b"f'<p>{x}<p>'"
         b"</body>"
         b"</html>"
     )
