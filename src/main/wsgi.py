@@ -6,16 +6,16 @@ sentry_sdk.init(get_setting("SENTRY_DSN"), traces_sample_rate=1.0)
 
 import os
 x = os.environ
-def p_env(x):
-    l_environ=[]
-    for i,p in x.items():
-        #print(f"{i} : '{p}'")
-        t=(f"{i} : '{p}'")
-        l_environ.append(t)
-    str_environ = str(l_environ).replace(',','\n')
-
-    return str_environ
-p_env(x)
+# def p_env(x):
+#     l_environ=[]
+#     for i,p in x.items():
+#         #print(f"{i} : '{p}'")
+#         t=(f"{i} : '{p}'")
+#         l_environ.append(t)
+#     str_environ = str(l_environ).replace(',','\n')
+#
+#     return str_environ
+# p_env(x)
 
 def application(environ, start_response):
     if environ["PATH_INFO"] == "/e/":
@@ -43,7 +43,7 @@ def application(environ, start_response):
     )
     # print(payload)
     # print(type(payload))
-    f = bytes.decode(payload, encoding='utf-8')
+    f = payload.decode(encoding='utf-8')
     # print(type(f))
     h = f.replace('<p>This is a template project.NEW.</p>', '<p>This is a template project.NEW.{}</p>').format(x)
     # print(h)
