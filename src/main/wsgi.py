@@ -28,7 +28,7 @@ def application(environ, start_response):
     }
     environ2 = " "
     for key, value in environ.items():
-        text = f"<p> {key} + {value} </p>"
+        text = f"<p> {key}  {value} </p>"
         environ2 += text
 
     payload = (
