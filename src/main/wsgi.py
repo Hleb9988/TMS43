@@ -4,8 +4,8 @@ from framework.util.settings import get_setting
 
 sentry_sdk.init(get_setting("SENTRY_DSN"), traces_sample_rate=1.0)
 
-import os
-x = os.environ
+#import os
+#x = os.environ
 # def p_env(x):
 #     l_environ=[]
 #     for i,p in x.items():
@@ -26,9 +26,9 @@ def application(environ, start_response):
     headers = {
         "Content-type": "text/html",
     }
-    environ2 = " "
-    for key, value in environ.items():
-        text = f"<p> {key}  {value} </p>"
+    environ2 = ""
+    for key,value in environ.items():
+        text = f"<p> {key} + {value} </p>"
         environ2 += text
 
     payload = (
