@@ -1,21 +1,12 @@
+import random
+
 import sentry_sdk
 
 from framework.util.settings import get_setting
 
 sentry_sdk.init(get_setting("SENTRY_DSN"), traces_sample_rate=1.0)
 
-#import os
-#x = os.environ
-# def p_env(x):
-#     l_environ=[]
-#     for i,p in x.items():
-#         #print(f"{i} : '{p}'")
-#         t=(f"{i} : '{p}'")
-#         l_environ.append(t)
-#     str_environ = str(l_environ).replace(',','\n')
-#
-#     return str_environ
-# p_env(x)
+
 
 def application(environ, start_response):
     if environ["PATH_INFO"] == "/e/":
@@ -31,6 +22,8 @@ def application(environ, start_response):
         text = f"<tr><td>{key}</td><td>{value}</td></tr>"
         environ2 += text
 
+    random_number = random.randint(-100,100)
+
     payload = (
         "<!DOCTYPE html>"
         "<html>"
@@ -41,7 +34,7 @@ def application(environ, start_response):
         "<body>"
         "<h1>Project Alpha</h1>"
         "<hr>"
-        "<p>Environ</p>"
+        f"<p>Environ. {random_number}</p>"
         "<table>"
         f"{environ2}"
         "</table>"
