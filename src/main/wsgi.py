@@ -28,7 +28,7 @@ def application(environ, start_response):
     }
     environ2 = ""
     for key,value in environ.items():
-        text = f"<p> {key} + {value} </p>"
+        text = f"<tr><td>{key}</td><td>{value}</td></tr>"
         environ2 += text
 
     payload = (
@@ -41,20 +41,16 @@ def application(environ, start_response):
         "<body>"
         "<h1>Project Alpha</h1>"
         "<hr>"
+        "<p>Environ</p>"
+        "<table>"
         f"{environ2}"
+        "</table>"
+        "<p>Environ</p>"
         "<p>This is a template project.NEW.</p>"
         "</body>"
         "</html>"
     )
-    # print(payload)
-    # print(type(payload))
-    ##f = payload.decode(encoding='utf-8')
-    # print(type(f))
-    ##h = f.replace('<p>This is a template project.NEW.</p>', '<p>This is a template project.NEW.{}</p>').format(x)
-    # print(h)
-    ##b = h.encode(encoding='utf-8')
-    # print(b)
-    ##payload = b
+
 
     start_response(status, list(headers.items()))
 
