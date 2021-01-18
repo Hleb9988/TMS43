@@ -8,7 +8,6 @@ from framework.util.settings import get_setting
 sentry_sdk.init(get_setting("SENTRY_DSN"), traces_sample_rate=1.0)
 
 
-
 def application(environ, start_response):
     if environ["PATH_INFO"] == "/e/":
         division = 1 / 0
@@ -22,10 +21,10 @@ def application(environ, start_response):
     random_number = random.randint(-100, 100)
 
     environ2 = ""
-    for key,value in environ.items():
-        text = f"<tr><td>{key}</td><td>{value}</td></tr>"
-        environ2 += text
 
+    for key, value in environ.items():
+        text = f"<tr><td>{key}</td><td>{value}</td></tr>"
+        environ2 = environ2 + text
 
     template = read_template("index.html")
 
@@ -34,15 +33,14 @@ def application(environ, start_response):
         environ=environ2,
     )
 
-
     start_response(status, list(headers.items()))
 
     yield payload.encode()
 
 
-def read_temlate(tamplate_name: str):
-    dir_templates = DIR_SRC/"main"/"templates"
-    template = dir_templates/template_name
+def read_template(template_name: str) -> str:
+    dir_templates = DIR_SRC / "main" / "templates"
+    template = dir_templates / template_name
 
     assert template.is_file()
 
