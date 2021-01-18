@@ -2,6 +2,7 @@ import random
 
 import sentry_sdk
 
+from framework.dirs import DIR_SRC
 from framework.util.settings import get_setting
 
 sentry_sdk.init(get_setting("SENTRY_DSN"), traces_sample_rate=1.0)
@@ -24,27 +25,26 @@ def application(environ, start_response):
 
     random_number = random.randint(-100,100)
 
-    payload = (
-        "<!DOCTYPE html>"
-        "<html>"
-        "<head>"
-        "<title>Alpha</title>"
-        '<meta charset="utf-8">'
-        "</head>"
-        "<body>"
-        "<h1>Project Alpha</h1>"
-        "<hr>"
-        f"<p>Environ. {random_number}</p>"
-        "<table>"
-        f"{environ2}"
-        "</table>"
-        "<p>Environ</p>"
-        "<p>This is a template project.NEW.</p>"
-        "</body>"
-        "</html>"
+    template = read_template("index.html")
+
+    payload = template.format(
+        random_number=random_number,
+        environ=environ2,
     )
 
 
     start_response(status, list(headers.items()))
 
     yield from [payload.encode()]
+
+
+def read_temlate(tamplate_name: str):
+    dir_templates=DIR_SRC/"main"/"templates"
+    template = dir_templates/template_name
+
+    assert template.is_file()
+
+    with template.open("r") as fd:
+        content = fd.read()
+
+    return content
