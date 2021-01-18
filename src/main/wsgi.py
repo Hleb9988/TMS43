@@ -18,12 +18,14 @@ def application(environ, start_response):
     headers = {
         "Content-type": "text/html",
     }
+
+    random_number = random.randint(-100, 100)
+
     environ2 = ""
     for key,value in environ.items():
         text = f"<tr><td>{key}</td><td>{value}</td></tr>"
         environ2 += text
 
-    random_number = random.randint(-100,100)
 
     template = read_template("index.html")
 
@@ -39,7 +41,7 @@ def application(environ, start_response):
 
 
 def read_temlate(tamplate_name: str):
-    dir_templates=DIR_SRC/"main"/"templates"
+    dir_templates = DIR_SRC/"main"/"templates"
     template = dir_templates/template_name
 
     assert template.is_file()
