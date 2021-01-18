@@ -35,7 +35,7 @@ def application(environ, start_response):
 
     start_response(status, list(headers.items()))
 
-    yield from [payload.encode()]
+    yield payload.encode()
 
 
 def read_temlate(tamplate_name: str):
