@@ -7,31 +7,60 @@ from framework.util.settings import get_setting
 
 sentry_sdk.init(get_setting("SENTRY_DSN"), traces_sample_rate=1.0)
 
+def wrong():
+    division = 1 / 0
+
+def index():
+    t = read_template("index.html")
+    payload = t.format(
+        random_number=random_number,
+        environ=environ2,
+    )
+    return payload
+
+
+def extract_info(x):
+    ex = x["PATH_INFO"]
+    return ex
+
+
+
+
 
 def application(environ, start_response):
-    if environ["PATH_INFO"] == "/e/":
-        division = 1 / 0
+    # if environ["PATH_INFO"] == "/e/":
+    #     division = 1 / 0
 
     status = "200 OK"
 
+    # headers = {
+    #     "Content-type": "text/html",
+    # }
+    path = extract_info(environ)
     headers = {
-        "Content-type": "text/html",
+        '/e/': wrong,
+        '/main/templates/index/': index
     }
 
     random_number = random.randint(-100, 100)
 
     environ2 = ""
 
+
+
     for key, value in environ.items():
         text = f"<tr><td>{key}</td><td>{value}</td></tr>"
         environ2 = environ2 + text
 
-    template = read_template("index.html")
+    # template = read_template("index.html")
+    #
+    # payload = template.format(
+    #     random_number=random_number,
+    #     environ=environ2,
+    # )
 
-    payload = template.format(
-        random_number=random_number,
-        environ=environ2,
-    )
+    h = headers[path]
+    h()
 
     start_response(status, list(headers.items()))
 
