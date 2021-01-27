@@ -41,7 +41,16 @@ def about():
 #     return ex
 
 
+def read_template(template_name: str) -> str:
+    dir_templates = DIR_SRC / "main" / "templates"
+    template = dir_templates / template_name
 
+    assert template.is_file()
+
+    with template.open("r") as fd:
+        content = fd.read()
+
+    return content
 
 
 def application(environ, start_response):
@@ -81,15 +90,3 @@ def application(environ, start_response):
     start_response(status, list(headers.items()))
 
     yield payload.encode()
-
-
-def read_template(template_name: str) -> str:
-    dir_templates = DIR_SRC / "main" / "templates"
-    template = dir_templates / template_name
-
-    assert template.is_file()
-
-    with template.open("r") as fd:
-        content = fd.read()
-
-    return content
