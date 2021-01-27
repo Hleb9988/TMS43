@@ -7,6 +7,14 @@ from framework.util.settings import get_setting
 
 sentry_sdk.init(get_setting("SENTRY_DSN"), traces_sample_rate=1.0)
 
+random_number = random.randint(-100, 100)
+
+environ2 = ""
+for key, value in environ.items():
+    text = f"<tr><td>{key}</td><td>{value}</td></tr>"
+    environ2 = environ2 + text
+
+
 def wrong():
     division = 1 / 0
 
@@ -17,6 +25,15 @@ def index():
         environ=environ2,
     )
     return payload
+
+def about():
+    t = read_template("environ.html")
+    payload = t.format(
+        random_number=random_number,
+        environ=environ2,
+    )
+    return payload
+
 
 
 def extract_info(x):
@@ -38,19 +55,18 @@ def application(environ, start_response):
     # }
     path = environ["PATH_INFO"]
     headers = {
-        '/e/': 'wrong',
-        '/': 'index'
+        '/e/': wrong,
+        '/a': index,
+        '/b': about
     }
 
-    random_number = random.randint(-100, 100)
-
-    environ2 = ""
-
-
-
-    for key, value in environ.items():
-        text = f"<tr><td>{key}</td><td>{value}</td></tr>"
-        environ2 = environ2 + text
+    # random_number = random.randint(-100, 100)
+    #
+    # environ2 = ""
+    #
+    # for key, value in environ.items():
+    #     text = f"<tr><td>{key}</td><td>{value}</td></tr>"
+    #     environ2 = environ2 + text
 
     # template = read_template("index.html")
     #
