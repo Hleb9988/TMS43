@@ -76,7 +76,7 @@ def application(environ, start_response):
     #     environ=environ2,
     # )
 
-    h = headers_1[path]
+    h = headers[path]
     h()
 
     start_response(status, list(headers.items()))
