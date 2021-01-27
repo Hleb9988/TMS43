@@ -36,7 +36,7 @@ def application(environ, start_response):
     # headers = {
     #     "Content-type": "text/html",
     # }
-    path = extract_info(environ)
+    path = environ["PATH_INFO"]
     headers = {
         '/e/': wrong,
         '/': index
