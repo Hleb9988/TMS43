@@ -39,7 +39,7 @@ def application(environ, start_response):
     path = extract_info(environ)
     headers = {
         '/e/': wrong,
-        '/main/templates/index/': index
+        '/': index
     }
 
     random_number = random.randint(-100, 100)
