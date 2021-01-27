@@ -38,8 +38,8 @@ def application(environ, start_response):
     # }
     path = environ["PATH_INFO"]
     headers = {
-        '/e/': wrong,
-        '/': index
+        '/e/': 'wrong',
+        '/': 'index'
     }
 
     random_number = random.randint(-100, 100)
