@@ -8,12 +8,12 @@ from framework.util.settings import get_setting
 
 sentry_sdk.init(get_setting("SENTRY_DSN"), traces_sample_rate=1.0)
 
-# random_number = random.randint(-100, 100)
-#
-# environ2 = ""
-# for key, value in environ.items():
-#     text = f"<tr><td>{key}</td><td>{value}</td></tr>"
-#     environ2 = environ2 + text
+random_number = random.randint(-100, 100)
+
+environ2 = ""
+for key, value in environ.items():
+    text = f"<tr><td>{key}</td><td>{value}</td></tr>"
+    environ2 = environ2 + text
 
 
 def wrong():
@@ -22,15 +22,15 @@ def wrong():
 def index():
     t = read_template("index.html")
     payload = t.format(
-        random_number=22,
-        environ='pjpoj',
+        random_number=random_number,
+        environ=environ2,
     )
     return payload
 
 def about():
     t = read_template("environ.html")
     payload = t.format(
-        environ='plpk0'
+        environ=environ2,
     )
     return payload
 
@@ -57,7 +57,7 @@ def application(environ, start_response):
     head = {
         '/e/': wrong,
         '/': index,
-        '/b': about
+        '/b/': about
     }
 
     # random_number = random.randint(-100, 100)
@@ -75,9 +75,8 @@ def application(environ, start_response):
     #     environ=environ2,
     # )
 
-    h = head['/']
-    # h()
-    index()
+    h = head[path]
+    h()
 
     start_response(status, list(headers.items()))
 
