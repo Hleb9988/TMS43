@@ -76,7 +76,8 @@ def application(environ, start_response):
     # )
 
     h = head['/']
-    h()
+    # h()
+    index()
 
     start_response(status, list(headers.items()))
 
