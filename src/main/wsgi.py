@@ -30,7 +30,7 @@ def index():
 def about():
     t = read_template("environ.html")
     payload = t.format(
-        environ=environ2,
+        environ=environ2
     )
     return payload
 
@@ -50,14 +50,13 @@ def application(environ, start_response):
 
     status = "200 OK"
 
-    # headers = {
-    #     "Content-type": "text/html",
-    # }
-    path = environ["PATH_INFO"]
     headers = {
-        'Content-type': 'text/html',
-        '/e': 'wrong',
-        '/a': 'index',
+        "Content-type": "text/html",
+    }
+    path = environ["PATH_INFO"]
+    head = {
+        '/e/': 'wrong',
+        '/a/': 'index',
         '/b': 'about'
     }
 
@@ -76,7 +75,7 @@ def application(environ, start_response):
     #     environ=environ2,
     # )
 
-    h = headers[path]
+    h = head[path]
     h()
 
     start_response(status, list(headers.items()))
