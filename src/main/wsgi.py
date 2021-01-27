@@ -50,14 +50,15 @@ def application(environ, start_response):
 
     status = "200 OK"
 
-    headers = {
-        "Content-type": "text/html",
-    }
+    # headers = {
+    #     "Content-type": "text/html",
+    # }
     path = environ["PATH_INFO"]
-    headers_1 = {
-        '/e/': wrong,
-        '/a/': index,
-        '/b/': about
+    headers = {
+        'Content-type': 'text/html',
+        '/e': 'wrong',
+        '/a': 'index',
+        '/b': 'about'
     }
 
     # random_number = random.randint(-100, 100)
