@@ -1,7 +1,7 @@
-cfrom wsgiref.simple_server import make_server
+from wsgiref.simple_server import make_server
 
-from . import settings
-from . import wsgi
+from main import settings
+from main import wsgi
 
 SERVER_RUNNING_BANNER = """
 +----------------------------------------+
