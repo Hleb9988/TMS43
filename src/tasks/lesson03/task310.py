@@ -1,5 +1,5 @@
 def ask_user():
-    money = input('Введите через точку число: ').split('.')
+    money = input('Введите через точку число: ').split(',')
     return money
 
 
