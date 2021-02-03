@@ -7,6 +7,7 @@ import sentry_sdk
 from framework.dirs import DIR_SRC
 from framework.util.settings import get_setting
 from tasks.lesson03 import task303
+from tasks.lesson03 import task311
 
 sentry_sdk.init(get_setting("SENTRY_DSN"), traces_sample_rate=1.0)
 
@@ -61,10 +62,32 @@ def handle_index(method: str, path: str, qs: str) -> ResponseT:
     return status, content_type, payload
 
 
+def handle_task_311(method: str, path: str, qs: str):
+    status = "200 OK"
+    content_type = "text/html"
+
+    qsi = parse_qs(qs)
+
+    template = read_template("task_311.html")
+
+    sentence = qsi.get("sentence")
+
+    if not sentence:
+        result = ""
+    else:
+        #sentence = sentence[0]
+        result = task311.is_gmail(sentence)
+
+    payload = template.format(text=result)
+
+    return status, content_type, payload
+
+
 HANDLERS = {
     "/": handle_index,
     "/e/": handle_error,
     "/tasks/lesson03/task303/": handle_task_303,
+    "/tasks/lesson03/task311/": handle_task_311,
 }
 
 
