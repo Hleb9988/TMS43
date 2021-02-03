@@ -75,7 +75,7 @@ def handle_task_311(method: str, path: str, qs: str):
     if not sentence:
         result = ""
     else:
-        #sentence = sentence[0]
+        sentence = sentence[0]
         result = task311.is_gmail(sentence)
 
     payload = template.format(text=result)
