@@ -98,7 +98,7 @@ def handle_task_310(method: str, path: str, qs: str):
     if not sentence:
         result = ""
     else:
-        #sentence = sentence[0]
+        sentence = sentence[1]
         result = task310.nominal(sentence)
 
     payload = template.format(text=result)
