@@ -39,7 +39,7 @@ def nominal(money):
                   f"К выдаче копейки : номинал 50коп. - {kop_50} шт.,"
                   f"номинал 20коп. - {kop_20} шт.,номинал 1коп. - {kop_1} шт."
                   )
-    return result
+    return f
 
 
 if __name__ == "__main__":
