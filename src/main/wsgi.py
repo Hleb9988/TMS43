@@ -41,7 +41,7 @@ def handle_task_303(method: str, path: str, qs: str) -> ResponseT:
     if not sentence:
         result = ""
     else:
-        #sentence = sentence[0]
+        sentence = sentence[0]
         result = task303.solution(sentence)
 
     payload = template.format(text=result)
@@ -98,7 +98,7 @@ def handle_task_310(method: str, path: str, qs: str):
     if not sentence:
         result = ""
     else:
-        sentence = sentence[0]
+        #sentence = sentence[0]
         result = task310.nominal(sentence)
 
     payload = template.format(text=result)
