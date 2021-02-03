@@ -4,7 +4,7 @@ def ask_user():
 
 
 def is_gmail(full_email):
-    email = full_email.split('%40')
+    email = full_email.split('@')
     if "gmail.com" == email[1]:
         result = full_email
     else:
