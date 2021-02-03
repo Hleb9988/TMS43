@@ -6,7 +6,7 @@ def ask_user():
 def nominal(money):
     f = int(money[0])
     t = int(money[1])
-    return f, t
+    return money, f, t
     # if f >= 10:
     #     kup_10 = f // 10
     #     kup_5 = (f - (kup_10 * 10)) // 5
