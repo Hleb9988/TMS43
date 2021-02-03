@@ -4,9 +4,10 @@ def ask_user():
 
 
 def nominal(money):
+    money1 = money.split('.')
     f = int(money[0])
     t = int(money[1])
-    return money, f, t
+    return money,money1, f, t
     # if f >= 10:
     #     kup_10 = f // 10
     #     kup_5 = (f - (kup_10 * 10)) // 5
