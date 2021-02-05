@@ -58,7 +58,7 @@ def handle_index(method: str, path: str, qs: str) -> ResponseT:
 
     payload = template.format(
         random_number=123,
-        environ={environ},
+        environ={},
     )
 
     return status, content_type, payload
