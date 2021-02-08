@@ -2,6 +2,11 @@ from typing import Callable
 from typing import Tuple
 from urllib.parse import parse_qs
 
+from http import cookies
+import urllib.parse, cgi, cgitb
+import Cookie
+
+
 import sentry_sdk
 
 from framework.dirs import DIR_SRC
@@ -9,6 +14,7 @@ from framework.util.settings import get_setting
 from tasks.lesson03 import task303
 from tasks.lesson03 import task311
 from tasks.lesson03 import task310
+
 
 
 sentry_sdk.init(get_setting("SENTRY_DSN"), traces_sample_rate=1.0)
@@ -65,6 +71,14 @@ def handle_index(method: str, path: str, qs: str) -> ResponseT:
 
 
 def handle_task_311(method: str, path: str, qs: str):
+    c = Cookies.SimpleCookie()
+    c['mycookie'] = 'cookie_value'
+    #Set - Cookie: mycookie = cookie_value
+    c['mycookie']['path'] = '/tasks/lesson03/task311/'
+    c['mycookie']['domain'] = 'PyMOTW'
+    c['mycookie']['secure'] = True
+
+
     status = "200 OK"
     content_type = "text/html"
 
