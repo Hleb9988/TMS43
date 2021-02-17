@@ -25,3 +25,4 @@ sentry-sdk = "==0.19.5"
 ipython = "*"
 dynaconf = {extras = [ "yaml",], version = "==3.1.2"}
 atomicwrites = "*"
+pedantic = "*"
