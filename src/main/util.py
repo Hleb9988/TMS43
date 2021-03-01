@@ -32,7 +32,7 @@ def read_template(template_path: Union[str, Path]) -> str:
 
     assert template.is_file(), f"template {template_path!r} is not a file"
 
-    with template.open("r") as fd:
+    with template.open("r", 100, "utf-8") as fd:
         content = fd.read()
 
     return content

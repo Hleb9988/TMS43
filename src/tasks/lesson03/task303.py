@@ -31,15 +31,16 @@
 # if __name__ == "__main__":
 #     print(solution(ask_user_to_input_a_sentence()))
 
-from main.custom_types import RequestT
-from main.custom_types import ResponseT
+from django.http import HttpRequest
+from django.http import HttpResponse
 from main.util import render_template
+
 
 TEMPLATE = "tasks/lesson03/task303.html"
 
 
-def handler(request: RequestT) -> ResponseT:
-    sentence = request.query.get("sentence", [""])[0] or ""
+def handler(request: HttpRequest) -> HttpResponse:
+    sentence = request.GET.get("sentence", [""])[0] or ""
     result = solution(sentence) if sentence else ""
 
     context = {
@@ -49,7 +50,7 @@ def handler(request: RequestT) -> ResponseT:
 
     document = render_template(TEMPLATE, context)
 
-    response = ResponseT(payload=document)
+    response = HttpResponse(document)
 
     return response
 

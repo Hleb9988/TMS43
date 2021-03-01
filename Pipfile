@@ -26,3 +26,5 @@ ipython = "*"
 dynaconf = {extras = [ "yaml",], version = "==3.1.2"}
 atomicwrites = "*"
 pedantic = "*"
+django = "*"
+dj-database-url = "*"

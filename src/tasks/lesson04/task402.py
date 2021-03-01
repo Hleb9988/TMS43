@@ -1,101 +1,50 @@
 import json
-import os
 from http import HTTPStatus
-from pathlib import Path
-from typing import Optional
+from typing import Dict
 
-from framework.dirs import DIR_STORAGE
-from main.custom_types import RequestT
-from main.custom_types import ResponseT
+from django.http import HttpRequest
+from django.http import HttpResponse
+from django.http import JsonResponse
+
 from main.util import render_template
 
 
-def handler(request: RequestT) -> ResponseT:
-    response = ResponseT()
+def handler(request: HttpRequest) -> HttpResponse:
+    number = get_accumulated(request.session)
+    context = {"number": number}
 
-    client_name = get_client(request)
-    if not client_name:
-        client_name = create_new_client()
-        response.cookies["z43sessionid"] = client_name
-        response.cookies["z43sessionid"]["path"] = "/"
+    document = render_template("tasks/lesson04/task402.html", context, engine="$")
 
-    result = "invalid input"
-    response.status = HTTPStatus.BAD_REQUEST
-
-    client_data = request.query.get("number", [""])[0]
-    if client_data.isnumeric():
-        number = int(client_data)
-        result = add_number(client_name, number)
-        response.status = HTTPStatus.OK
-
-    context = {"number": result}
-
-    response.payload = render_template(
-        "tasks/lesson04/task402.html", context, engine="$"
-    )
+    response = HttpResponse(document)
 
     return response
 
 
-def handler_api(request: RequestT) -> ResponseT:
-    response = ResponseT(content_type="application/json")
-    payload = {
-        "ok": False,
-        "result": "0",
-    }
+def handler_api(request: HttpRequest) -> JsonResponse:
+    if request.method.lower() == "post":
+        payload = json.loads(request.body)
+        result = payload.get("number")
+        if result:
+            add_number(request.session, result)
+    else:
+        result = get_accumulated(request.session)
 
-    client_name = get_client(request)
-    if not client_name:
-        client_name = create_new_client()
-        response.cookies["z43sessionid"] = client_name
+    payload = {"ok": True, "result": result}
 
-    result = calc_sum(client_name)
-    payload["ok"] = True
-    payload["result"] = result
-
-    response.payload = json.dumps(payload)
-    response.status = HTTPStatus.OK
+    response = JsonResponse(payload)
 
     return response
 
 
-def create_new_client() -> str:
-    return os.urandom(8).hex()
-
-
-def get_client_file(client_name: str) -> Path:
-    file_path = DIR_STORAGE / f"{client_name}.402.txt"
-
-    return file_path
-
-
-def calc_sum(client_name: str) -> int:
-    data_file = get_client_file(client_name)
-
-    if not data_file.exists():
-        return 0
-
-    with data_file.open("r") as src:
-        result = sum(int(line.strip()) for line in src.readlines())
+def get_accumulated(session: Dict) -> int:
+    result = session.get("task402", 0)
 
     return result
 
 
-def add_number(client_name: str, number: int) -> int:
-    data_file = get_client_file(client_name)
-
-    with data_file.open("a") as dst:
-        dst.write(f"{number}\n")
+def add_number(session: Dict, number: int) -> int:
+    acc = get_accumulated(session)
+    acc += number
+    session["task402"] = acc
 
     return number
-
-
-def get_client(request: RequestT) -> Optional[str]:
-    if not request.cookies:
-        return None
-
-    morsel = request.cookies.get("z43sessionid")
-    if not morsel:
-        return None
-
-    return morsel.value or None

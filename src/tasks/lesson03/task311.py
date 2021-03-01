@@ -1,3 +1,25 @@
+from django.http import HttpRequest
+from django.http import HttpResponse
+
+from main.util import render_template
+
+TEMPLATE = "tasks/lesson03/task311.html"
+
+def handler(request: HttpRequest) -> HttpResponse:
+    sentence = request.GET.get("sentence", "")
+    result = is_gmail(sentence) if sentence else ""
+
+    context = {
+        "text": result,
+    }
+
+    document = render_template(TEMPLATE, context)
+
+    response = HttpResponse(document)
+
+    return response
+
+
 def ask_user():
     full_email = input("Введите email: ")
     return full_email
