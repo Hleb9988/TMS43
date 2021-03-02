@@ -13,6 +13,8 @@ from urllib.parse import parse_qs
 from pydantic import Field
 from pydantic.main import BaseModel
 
+from main.sessions import Session
+
 
 class ResponseT(BaseModel):
     status: Union[int, HTTPStatus] = HTTPStatus.OK
@@ -37,9 +39,12 @@ class RequestT(BaseModel):
     query: Dict = Field(default_factory=dict)
     headers: Dict = Field(default_factory=dict)
     cookies: SimpleCookie = Field(default_factory=SimpleCookie)
+    session: Session = Field(default_factory=Session)
+    payload: str = ""
 
     class Config:
         allow_mutation = False
+        arbitrary_types_allowed = True
 
     def __init__(self, environ: Dict):
         kwargs = prepare_kwargs(environ)
@@ -51,13 +56,17 @@ def prepare_kwargs(environ: Dict) -> Dict[str, Any]:
     query = parse_qs(qs)
     headers = prepare_headers(environ)
     cookies = prepare_cookies(headers)
+    session = Session(cookies.get("z43sessionid"))
+    payload = fetch_payload(environ)
 
     kwargs = dict(
         cookies=cookies,
         headers=headers,
         method=environ["REQUEST_METHOD"],
         path=environ["PATH_INFO"],
+        payload=payload,
         query=query,
+        session=session,
     )
 
     return kwargs
@@ -91,6 +100,16 @@ def reform_header(header: str) -> str:
     capitalized = string.capwords(dash_sep, "-")
 
     return capitalized
+
+
+def fetch_payload(environ: Dict) -> str:
+    src = environ["wsgi.input"]
+    ssp = int(environ.get("CONTENT_LENGTH") or 0)
+    if not ssp:
+        return ""
+
+    data = src.read(ssp).decode()
+    return data
 
 
 HandlerT = Callable[[RequestT], ResponseT]

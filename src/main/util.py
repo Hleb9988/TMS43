@@ -1,3 +1,4 @@
+import enum
 from pathlib import Path
 from string import Template
 from typing import Dict
@@ -11,18 +12,18 @@ def render_template(
     template_path: Union[str, Path],
     context: Optional[Dict] = None,
     *,
-    engine: str = "{",
+    engine_type: str = "{",
 ) -> str:
     template = read_template(template_path)
     context = context or {}
 
     engines = {
-        "{": lambda _ctx: template.format(**_ctx),
+        "{": lambda c: template.format(**c),
         "$": Template(template).safe_substitute,
     }
 
-    renderer = engines[engine]
-    document = renderer(context)
+    engine = engines[engine_type]
+    document = engine(context)
 
     return document
 
